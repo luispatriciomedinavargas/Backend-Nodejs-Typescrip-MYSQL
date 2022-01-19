@@ -1,11 +1,10 @@
 import {response,request} from 'express';;
 import jwt from 'jsonwebtoken';
-
-const Usuario = require('../models/usuario');
-
-const validarJWT = async (req = request, res = response, next:any) => {
+import { NUMBER } from 'sequelize/dist';
+import Usuario from '../models/usuarios';
 
 
+ const validarJWT = async (req = request, res = response, next:any) => {
     const token = req.header('x-token');
     const secretkey = process.env.SECRETORPRIVATEKEY || 'Pablit0C14VoUnClavo';
 
@@ -17,16 +16,15 @@ const validarJWT = async (req = request, res = response, next:any) => {
 
     try {
 
-        const  id  = jwt.verify(token, secretkey);
-
-        console.log(id);
-        const userAuth = await Usuario.findById(id);
-
-        //Verificar si el uid tiene estado true
-        if (!userAuth.estado) {
+        const gettingID  =   jwt.verify(token, secretkey);
+    
+   const id= Object.values(gettingID).length -2;
+        const userAuth = await Usuario.findByPk(id);
+        const estado=Object.values(userAuth!);
+        if (!estado[0].estado) {
             return res.status(401).json(
                 {
-                    msg: 'that is User is deleted, please check it - estado is not Valid'
+                    msg: 'ese usuario esta borrado'
                 }
             )
         }
@@ -44,4 +42,4 @@ const validarJWT = async (req = request, res = response, next:any) => {
 
 
 }
-module.exports = { validarJWT }
+export default validarJWT

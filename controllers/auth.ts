@@ -14,7 +14,7 @@ export const login=async(req:Request , res:Response)=>{
         where: {
               password: password,
               email:email,
-              estado:1
+              estado:true
           },
           include:[{
               model:Persona,

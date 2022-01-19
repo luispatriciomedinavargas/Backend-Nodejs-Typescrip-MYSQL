@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 ;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const Usuario = require('../models/usuario');
+const usuarios_1 = __importDefault(require("../models/usuarios"));
 const validarJWT = (req = express_1.request, res = express_1.response, next) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.header('x-token');
     const secretkey = process.env.SECRETORPRIVATEKEY || 'Pablit0C14VoUnClavo';
@@ -25,13 +25,13 @@ const validarJWT = (req = express_1.request, res = express_1.response, next) => 
         });
     }
     try {
-        const id = jsonwebtoken_1.default.verify(token, secretkey);
-        console.log(id);
-        const userAuth = yield Usuario.findById(id);
-        //Verificar si el uid tiene estado true
-        if (!userAuth.estado) {
+        const gettingID = jsonwebtoken_1.default.verify(token, secretkey);
+        const id = Object.values(gettingID).length - 2;
+        const userAuth = yield usuarios_1.default.findByPk(id);
+        const estado = Object.values(userAuth);
+        if (!estado[0].estado) {
             return res.status(401).json({
-                msg: 'that is User is deleted, please check it - estado is not Valid'
+                msg: 'ese usuario esta borrado'
             });
         }
         req.usuario = userAuth;
@@ -44,5 +44,5 @@ const validarJWT = (req = express_1.request, res = express_1.response, next) => 
         });
     }
 });
-module.exports = { validarJWT };
+exports.default = validarJWT;
 //# sourceMappingURL=validar-jwt.js.map

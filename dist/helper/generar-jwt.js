@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const generarJWT = (uid = '') => {
+const generarJWT = (id = '') => {
     return new Promise((resolve, reject) => {
-        const payload = { uid };
+        const payload = { id };
         const secretkey = process.env.SECRETORPRIVATEKEY || 'Pablit0C14VoUnClavo';
         jsonwebtoken_1.default.sign(payload, secretkey, {
             expiresIn: '4h'

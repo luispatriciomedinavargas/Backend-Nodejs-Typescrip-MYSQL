@@ -23,7 +23,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         where: {
             password: password,
             email: email,
-            estado: 1
+            estado: true
         },
         include: [{
                 model: persona_1.default,

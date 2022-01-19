@@ -8,6 +8,9 @@ let idPersona:number[]=[];
 
 const getAll = await Usuario.findAll( 
     {
+        where:{
+            estado:1
+        }
     }
 );
 
