@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import Usuario from "../models/usuarios";
-import  Persona from "../models/persona";
-import { Model, Sequelize, TableHints } from "sequelize/dist";
 
 export const getUsuarios=async(req:Request , res:Response)=>{
 
@@ -10,15 +8,16 @@ let idPersona:number[]=[];
 
 const getAll = await Usuario.findAll( 
     {
-        order:[
-        ]
+        where:{
+            estado:1
+        }
     }
 );
 
-// getAll.map((user:any)=>{
-// idPersona[user.dataValues.id_persona]=user.dataValues.id_persona;
-// })
-// idPersona.splice(0,1);
+getAll.map((user:any)=>{
+idPersona[user.dataValues.id_persona]=user.dataValues.id_persona;
+})
+idPersona.splice(0,1);
 
 const usuarios= await Usuario.findAll({
 

@@ -2,13 +2,13 @@ export  const personas=[
     {
         id:1,
         nombre:'admin',
-        apelido:'admin',
+        apellido:'admin',
         estado:1
-    },   
+    },
      {
         id:2,
         nombre:'adminFake',
-        apelido:'adminFake',
+        apellido:'adminFake',
         estado:0
     },
 ]

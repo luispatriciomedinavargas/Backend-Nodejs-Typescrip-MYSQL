@@ -21,17 +21,10 @@ const Usuario = connection_1.default.define('Usuario', {
     },
     estado: {
         type: sequelize_1.DataTypes.BOOLEAN
-    },
-    id_persona: {
-        type: sequelize_1.DataTypes.BIGINT.UNSIGNED,
-        references: {
-            model: persona_1.default,
-            key: 'id',
-        }
-    },
+    }
 });
 // Cual es la diferencia entre  estos tres?
-// Usuario.belongsTo(Persona)
+Usuario.belongsTo(persona_1.default, { foreignKey: 'id', as: 'id_persona' });
 // Usuario.hasOne(Persona)
 exports.default = Usuario;
 //# sourceMappingURL=usuarios.js.map

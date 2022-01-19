@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const usuario_1 = __importDefault(require("../routes/usuario"));
+const auth_1 = __importDefault(require("../routes/auth"));
 const connection_1 = __importDefault(require("../db/connection"));
 const persona_1 = __importDefault(require("./persona"));
 const usuarios_1 = __importDefault(require("./usuarios"));
@@ -31,7 +32,8 @@ const usuario_2 = require("../seeders/usuario");
 class Server {
     constructor() {
         this.apiPaths = {
-            usuarios: '/api/usuarios'
+            usuarios: '/api/usuarios',
+            auth: '/api/auth'
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '8080';
@@ -69,7 +71,13 @@ class Server {
                     enfermedad_1.default.create(enfermedad);
                 }
             }
-            for (const persona of historiaClinica_1.historiaClinicas) {
+            for (const tratamiento of tratamiento_2.tratamientos) {
+                const id = yield tratamiento_1.default.findByPk(tratamiento.id);
+                if (!id) {
+                    tratamiento_1.default.create(tratamiento);
+                }
+            }
+            for (const persona of persona_2.personas) {
                 const id = yield persona_1.default.findByPk(persona.id);
                 if (!id) {
                     persona_1.default.create(persona);
@@ -81,22 +89,16 @@ class Server {
                     mascota_1.default.create(mascota);
                 }
             }
-            for (const tratamiento of tratamiento_2.tratamientos) {
-                const id = yield tratamiento_1.default.findByPk(tratamiento.id);
-                if (!id) {
-                    tratamiento_1.default.create(tratamiento);
-                }
-            }
             for (const usuario of usuario_2.usuarios) {
                 const id = yield usuarios_1.default.findByPk(usuario.id);
                 if (!id) {
                     usuarios_1.default.create(usuario);
                 }
             }
-            for (const persona of persona_2.personas) {
-                const id = yield persona_1.default.findByPk(persona.id);
+            for (const historiaClinica of historiaClinica_1.historiaClinicas) {
+                const id = yield HistoriaClinica_1.default.findByPk(historiaClinica.id);
                 if (!id) {
-                    persona_1.default.create(persona);
+                    HistoriaClinica_1.default.create(historiaClinica);
                 }
             }
         });
@@ -111,6 +113,7 @@ class Server {
     }
     routes() {
         this.app.use(this.apiPaths.usuarios, usuario_1.default);
+        this.app.use(this.apiPaths.auth, auth_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {
