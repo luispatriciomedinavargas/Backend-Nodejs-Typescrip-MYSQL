@@ -1,9 +1,10 @@
-import { request, response, } from 'express';
+
+import { request, response,NextFunction } from 'express';
 import {validationResult} from 'express-validator';
 
 
 
-const validarCampos = (req=request, res=response, next:any) => {
+const validarCampos = (req=request, res=response, next:NextFunction) => {
     
     const errors = validationResult(req);
 

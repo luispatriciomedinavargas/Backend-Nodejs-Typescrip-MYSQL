@@ -22,6 +22,12 @@ const enfermedad_1 = __importDefault(require("./enfermedad"));
 const tratamiento_1 = __importDefault(require("./tratamiento"));
 const mascota_1 = __importDefault(require("./mascota"));
 const HistoriaClinica_1 = __importDefault(require("./HistoriaClinica"));
+const enfermedad_2 = require("../seeders/enfermedad");
+const historiaClinica_1 = require("../seeders/historiaClinica");
+const mascota_2 = require("../seeders/mascota");
+const persona_2 = require("../seeders/persona");
+const tratamiento_2 = require("../seeders/tratamiento");
+const usuario_2 = require("../seeders/usuario");
 class Server {
     constructor() {
         this.apiPaths = {
@@ -31,9 +37,10 @@ class Server {
         this.port = process.env.PORT || '8080';
         //Metodos iniciales
         this.dbconnection();
+        this.entites();
         this.middlewares();
         this.routes();
-        this.entites();
+        this.seeds();
     }
     dbconnection() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -46,13 +53,52 @@ class Server {
         });
     }
     entites() {
+        persona_1.default.sync();
+        usuarios_1.default.sync();
+        mascota_1.default.sync();
+        enfermedad_1.default.sync();
+        tratamiento_1.default.sync();
+        HistoriaClinica_1.default.sync();
+    }
+    ;
+    seeds() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield persona_1.default.sync();
-            yield usuarios_1.default.sync();
-            yield mascota_1.default.sync();
-            yield enfermedad_1.default.sync();
-            yield tratamiento_1.default.sync();
-            yield HistoriaClinica_1.default.sync();
+            for (const enfermedad of enfermedad_2.enfermedades) {
+                const id = yield enfermedad_1.default.findByPk(enfermedad.id);
+                if (!id) {
+                    enfermedad_1.default.create(enfermedad);
+                }
+            }
+            for (const persona of historiaClinica_1.historiaClinicas) {
+                const id = yield persona_1.default.findByPk(persona.id);
+                if (!id) {
+                    persona_1.default.create(persona);
+                }
+            }
+            for (const mascota of mascota_2.mascotas) {
+                const id = yield mascota_1.default.findByPk(mascota.id);
+                if (!id) {
+                    mascota_1.default.create(mascota);
+                }
+            }
+            for (const tratamiento of tratamiento_2.tratamientos) {
+                const id = yield tratamiento_1.default.findByPk(tratamiento.id);
+                if (!id) {
+                    tratamiento_1.default.create(tratamiento);
+                }
+            }
+            for (const usuario of usuario_2.usuarios) {
+                const id = yield usuarios_1.default.findByPk(usuario.id);
+                if (!id) {
+                    usuarios_1.default.create(usuario);
+                }
+            }
+            for (const persona of persona_2.personas) {
+                const id = yield persona_1.default.findByPk(persona.id);
+                if (!id) {
+                    persona_1.default.create(persona);
+                }
+            }
         });
     }
     middlewares() {

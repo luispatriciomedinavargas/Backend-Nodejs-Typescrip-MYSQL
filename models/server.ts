@@ -1,9 +1,8 @@
 import express,{Application} from 'express';
 import cors from 'cors'
-
-
 import userRoutes from '../routes/usuario';
 import db from '../db/connection';
+
 import Persona from './persona';
 import Usuario from './usuarios';
 import Enfermedad from './enfermedad';
@@ -11,9 +10,14 @@ import Tratamiento from './tratamiento';
 import Mascota from './mascota';
 import HistoriaClinica from './HistoriaClinica';
 
+import {enfermedades} from '../seeders/enfermedad'
+import {historiaClinicas} from '../seeders/historiaClinica'
+import {mascotas} from '../seeders/mascota'
+import {personas} from '../seeders/persona'
+import {tratamientos} from '../seeders/tratamiento'
+import {usuarios} from '../seeders/usuario'
 
 class Server {
-
     private app:Application;
     private port:string; 
     private apiPaths ={
@@ -28,32 +32,72 @@ class Server {
         
         //Metodos iniciales
         this.dbconnection();
+        this.entites();
         this.middlewares();
         this.routes();
-        this.entites()
+        this.seeds();
     }
         
 
     async dbconnection(){
-
-        try {
-        
- 
+        try { 
             await db.authenticate();
 
         } catch (error:any ) {
             throw new Error(error);
         }
+    }
+
+     entites(){
+     Persona.sync();
+     Usuario.sync();
+     Mascota.sync();
+     Enfermedad.sync();
+     Tratamiento.sync();
+     HistoriaClinica.sync();
+    };
+
+    async seeds(){        
+        for  (const enfermedad of enfermedades) {
+            const id =  await Enfermedad.findByPk(enfermedad.id)
+            if(!id){
+                Enfermedad.create(enfermedad);
+            } 
+        }
+        for  (const persona of historiaClinicas) {
+            const id =  await Persona.findByPk(persona.id)
+            if(!id){
+                Persona.create(persona);
+            } 
+        }
+        for  (const mascota of mascotas) {
+            const id =  await Mascota.findByPk(mascota.id)
+            if(!id){
+                Mascota.create(mascota);
+            } 
+        }
+        for  (const tratamiento of tratamientos) {
+            const id =  await Tratamiento.findByPk(tratamiento.id)
+            if(!id){
+                Tratamiento.create(tratamiento);
+            } 
+        }
+        for  (const usuario of usuarios) {
+            const id =  await Usuario.findByPk(usuario.id)
+            if(!id){
+                Usuario.create(usuario);
+            } 
+        }
+        for  (const persona of personas) {
+            const id =  await Persona.findByPk(persona.id)
+            if(!id){
+                Persona.create(persona);
+            } 
+        }
 
     }
-    async entites(){
-    await Persona.sync();
-    await Usuario.sync();
-    await Mascota.sync();
-    await Enfermedad.sync();
-    await Tratamiento.sync();
-    await HistoriaClinica.sync();
-}
+    
+
     middlewares(){
 
         //CORS

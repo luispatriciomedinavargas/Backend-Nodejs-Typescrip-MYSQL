@@ -73,7 +73,7 @@ export const getUsuario=(req:Request , res:Response)=>{
     const {id}=req.params;
     const {body}=req;
         try {
-            const usuario=await Usuario.findByPk(id);
+            const usuario= await Usuario.findByPk(id);
             if(!usuario){
                 return res.status(404).json({
                     msg:'No se existe un usuario con el id' + id
