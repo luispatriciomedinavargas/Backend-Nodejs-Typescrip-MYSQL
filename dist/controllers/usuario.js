@@ -16,13 +16,11 @@ exports.deleteUsuario = exports.putUsuario = exports.postUsuario = exports.getUs
 const usuarios_1 = __importDefault(require("../models/usuarios"));
 const getUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let idPersona = [];
-    const getAll = yield usuarios_1.default.findAll({
-        order: []
+    const getAll = yield usuarios_1.default.findAll({});
+    getAll.map((user) => {
+        idPersona[user.dataValues.id_persona] = user.dataValues.id_persona;
     });
-    // getAll.map((user:any)=>{
-    // idPersona[user.dataValues.id_persona]=user.dataValues.id_persona;
-    // })
-    // idPersona.splice(0,1);
+    idPersona.splice(0, 1);
     const usuarios = yield usuarios_1.default.findAll({});
     res.json({
         getAll

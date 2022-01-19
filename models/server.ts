@@ -1,6 +1,7 @@
 import express,{Application} from 'express';
 import cors from 'cors'
 import userRoutes from '../routes/usuario';
+import authRoutes from '../routes/auth';
 import db from '../db/connection';
 
 import Persona from './persona';
@@ -21,7 +22,8 @@ class Server {
     private app:Application;
     private port:string; 
     private apiPaths ={
-        usuarios:'/api/usuarios'
+        usuarios:'/api/usuarios',
+        auth:'/api/auth'
     };
    
 
@@ -64,10 +66,17 @@ class Server {
                 Enfermedad.create(enfermedad);
             } 
         }
-        for  (const persona of historiaClinicas) {
+        for  (const tratamiento of tratamientos) {
+            const id =  await Tratamiento.findByPk(tratamiento.id)
+            if(!id){
+                Tratamiento.create(tratamiento);
+            } 
+        }
+        for  (const persona of personas) {
             const id =  await Persona.findByPk(persona.id)
             if(!id){
                 Persona.create(persona);
+                
             } 
         }
         for  (const mascota of mascotas) {
@@ -76,28 +85,21 @@ class Server {
                 Mascota.create(mascota);
             } 
         }
-        for  (const tratamiento of tratamientos) {
-            const id =  await Tratamiento.findByPk(tratamiento.id)
-            if(!id){
-                Tratamiento.create(tratamiento);
-            } 
-        }
         for  (const usuario of usuarios) {
             const id =  await Usuario.findByPk(usuario.id)
             if(!id){
                 Usuario.create(usuario);
             } 
         }
-        for  (const persona of personas) {
-            const id =  await Persona.findByPk(persona.id)
+        for  (const historiaClinica of historiaClinicas) {
+            const id =  await HistoriaClinica.findByPk(historiaClinica.id)
             if(!id){
-                Persona.create(persona);
+                HistoriaClinica.create(historiaClinica);
             } 
         }
-
     }
     
-
+    
     middlewares(){
 
         //CORS
@@ -112,6 +114,7 @@ class Server {
     }
     routes(){
         this.app.use(this.apiPaths.usuarios, userRoutes)
+        this.app.use(this.apiPaths.auth, authRoutes)
     }
 
     listen(){

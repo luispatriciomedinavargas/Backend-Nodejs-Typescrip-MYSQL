@@ -2,7 +2,7 @@ import {DataTypes} from 'sequelize'
 import db from '../db/connection'
 import Persona from './persona';
 
-const Usuario=db.define('Usuario',{
+const Usuario  =db.define('Usuario',{
     id:{
         type:DataTypes.BIGINT.UNSIGNED,
         primaryKey: true,
@@ -17,18 +17,11 @@ const Usuario=db.define('Usuario',{
     },
     estado:{
         type:DataTypes.BOOLEAN
-    },
-    id_persona:{
-        type:DataTypes.BIGINT.UNSIGNED,
-        references:{
-            model:Persona,
-            key:'id', 
-        }
-    },
+    }
+
+
 })
-
-
 // Cual es la diferencia entre  estos tres?
-// Usuario.belongsTo(Persona)
+Usuario.belongsTo(Persona,{foreignKey:'id',as:'id_persona'})
 // Usuario.hasOne(Persona)
 export default Usuario;
