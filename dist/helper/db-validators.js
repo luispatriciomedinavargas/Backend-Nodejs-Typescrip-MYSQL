@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validarIdTratamiento = exports.validarIdUsuario = exports.validarIdPersonaUsuario = void 0;
+exports.validarIdEnfermedad = exports.validarIdTratamiento = exports.validarIdUsuario = exports.validarIdPersonaUsuario = void 0;
 const models_1 = require("../models");
 const validarIdPersonaUsuario = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const checkID = yield models_1.Usuarios.findOne({ include: { model: models_1.Persona,
@@ -33,4 +33,11 @@ const validarIdTratamiento = (id) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.validarIdTratamiento = validarIdTratamiento;
+const validarIdEnfermedad = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const checkID = yield models_1.Enfermedad.findByPk(id);
+    if (!checkID) {
+        throw new Error(`no existe un tratamiento con ese id`);
+    }
+});
+exports.validarIdEnfermedad = validarIdEnfermedad;
 //# sourceMappingURL=db-validators.js.map

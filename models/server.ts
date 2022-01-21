@@ -1,7 +1,8 @@
 import express,{Application} from 'express';
 import cors from 'cors'
-import userRoutes from '../routes/usuario';
 import authRoutes from '../routes/auth';
+import userRoutes from '../routes/usuario';
+import enfermedaRouter from '../routes/enfermedad';
 import tratamientoRouter from '../routes/tratamiento';
 import db from '../db/connection';
 
@@ -27,7 +28,8 @@ class Server {
     private apiPaths ={
         usuarios:'/api/usuarios',
         auth:'/api/auth',
-        tratamiento:'/api/tratamiento'
+        tratamiento:'/api/tratamiento',
+        enfermedad:'/api/enfermedad',
     };
    
 
@@ -78,6 +80,7 @@ class Server {
         this.app.use(this.apiPaths.auth, authRoutes)
         this.app.use(this.apiPaths.usuarios, userRoutes)
         this.app.use(this.apiPaths.tratamiento, tratamientoRouter)
+        this.app.use(this.apiPaths.enfermedad, enfermedaRouter)
     }
 
     listen(){
