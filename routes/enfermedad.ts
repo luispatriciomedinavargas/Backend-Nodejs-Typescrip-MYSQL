@@ -8,7 +8,7 @@ import {
     putEnfermedad,
     deleteEnfermedad,
 } from '../controllers/enfermedad';
-import { validarIdEnfermedad, validarIdTratamiento } from '../helper/db-validators';
+import { validarIdEnfermedad } from '../helper/db-validators';
 import validarCampos from '../middlewares/validar-campos';
 import validarJWT from '../middlewares/validar-jwt';
 ;
