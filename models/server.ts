@@ -4,6 +4,7 @@ import authRoutes from '../routes/auth';
 import userRoutes from '../routes/usuario';
 import enfermedaRouter from '../routes/enfermedad';
 import tratamientoRouter from '../routes/tratamiento';
+import personaRouter from '../routes/persona';
 import db from '../db/connection';
 
 import Persona from './persona';
@@ -30,6 +31,7 @@ class Server {
         auth:'/api/auth',
         tratamiento:'/api/tratamiento',
         enfermedad:'/api/enfermedad',
+        persona:'/api/persona',
     };
    
 
@@ -81,6 +83,7 @@ class Server {
         this.app.use(this.apiPaths.usuarios, userRoutes)
         this.app.use(this.apiPaths.tratamiento, tratamientoRouter)
         this.app.use(this.apiPaths.enfermedad, enfermedaRouter)
+        this.app.use(this.apiPaths.persona, personaRouter)
     }
 
     listen(){

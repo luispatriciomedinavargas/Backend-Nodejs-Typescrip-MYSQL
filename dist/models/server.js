@@ -18,8 +18,9 @@ const auth_1 = __importDefault(require("../routes/auth"));
 const usuario_1 = __importDefault(require("../routes/usuario"));
 const enfermedad_1 = __importDefault(require("../routes/enfermedad"));
 const tratamiento_1 = __importDefault(require("../routes/tratamiento"));
+const persona_1 = __importDefault(require("../routes/persona"));
 const connection_1 = __importDefault(require("../db/connection"));
-const persona_1 = __importDefault(require("./persona"));
+const persona_2 = __importDefault(require("./persona"));
 const usuarios_1 = __importDefault(require("./usuarios"));
 const enfermedad_2 = __importDefault(require("./enfermedad"));
 const tratamiento_2 = __importDefault(require("./tratamiento"));
@@ -33,6 +34,7 @@ class Server {
             auth: '/api/auth',
             tratamiento: '/api/tratamiento',
             enfermedad: '/api/enfermedad',
+            persona: '/api/persona',
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '8080';
@@ -54,7 +56,7 @@ class Server {
         });
     }
     entites() {
-        persona_1.default.sync();
+        persona_2.default.sync();
         usuarios_1.default.sync();
         mascota_1.default.sync();
         enfermedad_2.default.sync();
@@ -75,6 +77,7 @@ class Server {
         this.app.use(this.apiPaths.usuarios, usuario_1.default);
         this.app.use(this.apiPaths.tratamiento, tratamiento_1.default);
         this.app.use(this.apiPaths.enfermedad, enfermedad_1.default);
+        this.app.use(this.apiPaths.persona, persona_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {
@@ -96,9 +99,9 @@ class Server {
                 }
             }
             for (const persona of index_1.personas) {
-                const id = yield persona_1.default.findByPk(persona.id);
+                const id = yield persona_2.default.findByPk(persona.id);
                 if (!id) {
-                    persona_1.default.create(persona);
+                    persona_2.default.create(persona);
                 }
             }
             for (const mascota of index_1.mascotas) {
