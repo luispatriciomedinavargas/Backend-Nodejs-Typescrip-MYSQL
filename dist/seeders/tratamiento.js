@@ -9,7 +9,7 @@ const tratamientos = [
     {
         id: 2,
         descripcion: 'tratamiento anti pulgas',
-        estado: 1,
+        estado: 0,
     },
 ];
 exports.default = tratamientos;

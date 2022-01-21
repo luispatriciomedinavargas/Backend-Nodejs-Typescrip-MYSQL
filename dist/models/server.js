@@ -16,11 +16,12 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const usuario_1 = __importDefault(require("../routes/usuario"));
 const auth_1 = __importDefault(require("../routes/auth"));
+const tratamiento_1 = __importDefault(require("../routes/tratamiento"));
 const connection_1 = __importDefault(require("../db/connection"));
 const persona_1 = __importDefault(require("./persona"));
 const usuarios_1 = __importDefault(require("./usuarios"));
 const enfermedad_1 = __importDefault(require("./enfermedad"));
-const tratamiento_1 = __importDefault(require("./tratamiento"));
+const tratamiento_2 = __importDefault(require("./tratamiento"));
 const mascota_1 = __importDefault(require("./mascota"));
 const _1 = require(".");
 const index_1 = require("../seeders/index");
@@ -28,7 +29,8 @@ class Server {
     constructor() {
         this.apiPaths = {
             usuarios: '/api/usuarios',
-            auth: '/api/auth'
+            auth: '/api/auth',
+            tratamiento: '/api/tratamiento'
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '8080';
@@ -54,10 +56,28 @@ class Server {
         usuarios_1.default.sync();
         mascota_1.default.sync();
         enfermedad_1.default.sync();
-        tratamiento_1.default.sync();
+        tratamiento_2.default.sync();
         _1.HistoriaClinica.sync();
     }
     ;
+    middlewares() {
+        //CORS
+        this.app.use((0, cors_1.default)());
+        //lectura BODY
+        this.app.use(express_1.default.json());
+        //Capeta publica
+        this.app.use(express_1.default.static('public'));
+    }
+    routes() {
+        this.app.use(this.apiPaths.auth, auth_1.default);
+        this.app.use(this.apiPaths.usuarios, usuario_1.default);
+        this.app.use(this.apiPaths.tratamiento, tratamiento_1.default);
+    }
+    listen() {
+        this.app.listen(this.port, () => {
+            console.log(`Servidor Corriendo en puerto ${this.port}`);
+        });
+    }
     seeds() {
         return __awaiter(this, void 0, void 0, function* () {
             for (const enfermedad of index_1.enfermedades) {
@@ -67,9 +87,9 @@ class Server {
                 }
             }
             for (const tratamiento of index_1.tratamientos) {
-                const id = yield tratamiento_1.default.findByPk(tratamiento.id);
+                const id = yield tratamiento_2.default.findByPk(tratamiento.id);
                 if (!id) {
-                    tratamiento_1.default.create(tratamiento);
+                    tratamiento_2.default.create(tratamiento);
                 }
             }
             for (const persona of index_1.personas) {
@@ -96,23 +116,6 @@ class Server {
                     _1.HistoriaClinica.create(historiaClinica);
                 }
             }
-        });
-    }
-    middlewares() {
-        //CORS
-        this.app.use((0, cors_1.default)());
-        //lectura BODY
-        this.app.use(express_1.default.json());
-        //Capeta publica
-        this.app.use(express_1.default.static('public'));
-    }
-    routes() {
-        this.app.use(this.apiPaths.usuarios, usuario_1.default);
-        this.app.use(this.apiPaths.auth, auth_1.default);
-    }
-    listen() {
-        this.app.listen(this.port, () => {
-            console.log(`Servidor Corriendo en puerto ${this.port}`);
         });
     }
 }

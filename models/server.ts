@@ -2,6 +2,7 @@ import express,{Application} from 'express';
 import cors from 'cors'
 import userRoutes from '../routes/usuario';
 import authRoutes from '../routes/auth';
+import tratamientoRouter from '../routes/tratamiento';
 import db from '../db/connection';
 
 import Persona from './persona';
@@ -25,7 +26,8 @@ class Server {
     private port:string; 
     private apiPaths ={
         usuarios:'/api/usuarios',
-        auth:'/api/auth'
+        auth:'/api/auth',
+        tratamiento:'/api/tratamiento'
     };
    
 
@@ -60,6 +62,29 @@ class Server {
      Tratamiento.sync();
      HistoriaClinica.sync();
     };
+    middlewares(){
+
+        //CORS
+        this.app.use(cors());
+
+
+        //lectura BODY
+        this.app.use(express.json());
+
+        //Capeta publica
+        this.app.use(express.static('public'));
+    }
+    routes(){
+        this.app.use(this.apiPaths.auth, authRoutes)
+        this.app.use(this.apiPaths.usuarios, userRoutes)
+        this.app.use(this.apiPaths.tratamiento, tratamientoRouter)
+    }
+
+    listen(){
+        this.app.listen(this.port,()=>{
+            console.log(`Servidor Corriendo en puerto ${this.port}`);
+        })
+    }
 
     async seeds(){        
         for  (const enfermedad of enfermedades) {
@@ -100,31 +125,6 @@ class Server {
             } 
         }
     }
-    
-    
-    middlewares(){
-
-        //CORS
-        this.app.use(cors());
-
-
-        //lectura BODY
-        this.app.use(express.json());
-
-        //Capeta publica
-        this.app.use(express.static('public'));
-    }
-    routes(){
-        this.app.use(this.apiPaths.usuarios, userRoutes)
-        this.app.use(this.apiPaths.auth, authRoutes)
-    }
-
-    listen(){
-        this.app.listen(this.port,()=>{
-            console.log(`Servidor Corriendo en puerto ${this.port}`);
-        })
-    }
-
 }
 
 export default Server;

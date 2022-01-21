@@ -16,9 +16,15 @@ const validarIdUsuario=async(id:string)=>{
     }
 }
  
-
+const validarIdTratamiento=async(id:string)=>{
+    const checkID= await Tratamiento.findByPk(id)
+    if(!checkID){
+        throw new Error(`no existe un tratamiento con ese id`)
+    }
+}
 
 export  {
     validarIdPersonaUsuario,
-    validarIdUsuario
+    validarIdUsuario,
+    validarIdTratamiento
 }

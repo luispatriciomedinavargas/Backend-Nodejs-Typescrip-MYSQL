@@ -6,21 +6,12 @@ import validarJWT from '../middlewares/validar-jwt';
 
 import { validarIdPersonaUsuario,validarIdUsuario } from '../helper/db-validators';
 
-
-
 const router=Router();
-
-
-
-
 /*
      * se valida JWT, campos relacioados a la entidad 
      * que sea el dato correcto/not null/empity y ID
 
 */
-
-
-
 
 router.get('/', [
     validarJWT,
