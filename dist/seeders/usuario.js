@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.usuarios = void 0;
-exports.usuarios = [
+const usuarios = [
     {
         id: 1,
         password: 'admin',
@@ -17,5 +16,5 @@ exports.usuarios = [
         estado: 0,
     },
 ];
-exports.default = exports.usuarios;
+exports.default = usuarios;
 //# sourceMappingURL=usuario.js.map

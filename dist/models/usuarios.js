@@ -21,7 +21,7 @@ const Usuario = connection_1.default.define('Usuario', {
     },
     estado: {
         type: sequelize_1.DataTypes.BOOLEAN
-    }
+    },
 });
 // Cual es la diferencia entre  estos tres?
 Usuario.belongsTo(persona_1.default, { foreignKey: 'id', as: 'id_persona' });

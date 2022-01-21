@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.enfermedades = void 0;
-exports.enfermedades = [
+const enfermedades = [
     {
         id: 1,
         descripcion: 'Garrapatas',
@@ -12,4 +11,5 @@ exports.enfermedades = [
         estado: 0
     },
 ];
+exports.default = enfermedades;
 //# sourceMappingURL=enfermedad.js.map

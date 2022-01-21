@@ -1,5 +1,4 @@
-export  const mascotas=[
-
+const mascotas=[
     {
         id:1,
         nombre:'firulais',
@@ -16,7 +15,6 @@ export  const mascotas=[
         comentario:'',
         id_persona:2,
     },
-
-
-    
 ]
+
+export default mascotas;

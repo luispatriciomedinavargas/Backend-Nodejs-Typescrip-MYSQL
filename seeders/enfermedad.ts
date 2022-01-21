@@ -1,4 +1,4 @@
-export const enfermedades=[
+const enfermedades=[
     {
         id:1,
         descripcion:'Garrapatas',
@@ -9,3 +9,4 @@ export const enfermedades=[
         estado:0
     },
 ]
+export default enfermedades

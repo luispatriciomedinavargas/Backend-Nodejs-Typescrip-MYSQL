@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.personas = void 0;
-exports.personas = [
+const personas = [
     {
         id: 1,
         nombre: 'admin',
@@ -15,4 +14,5 @@ exports.personas = [
         estado: 0
     },
 ];
+exports.default = personas;
 //# sourceMappingURL=persona.js.map

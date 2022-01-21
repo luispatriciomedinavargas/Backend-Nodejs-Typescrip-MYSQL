@@ -1,4 +1,4 @@
-export const usuarios=[
+const usuarios=[
     {
         id:1,
         password:'admin',

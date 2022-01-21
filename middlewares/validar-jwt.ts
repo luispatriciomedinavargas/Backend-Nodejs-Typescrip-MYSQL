@@ -1,6 +1,5 @@
 import {response,request} from 'express';;
 import jwt from 'jsonwebtoken';
-import { NUMBER } from 'sequelize/dist';
 import Usuario from '../models/usuarios';
 
 
@@ -18,7 +17,7 @@ import Usuario from '../models/usuarios';
 
         const gettingID  =   jwt.verify(token, secretkey);
     
-   const id= Object.values(gettingID).length -2;
+      const id= Object.values(gettingID).length -2;
         const userAuth = await Usuario.findByPk(id);
         const estado=Object.values(userAuth!);
         if (!estado[0].estado) {

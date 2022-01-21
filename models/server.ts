@@ -9,14 +9,16 @@ import Usuario from './usuarios';
 import Enfermedad from './enfermedad';
 import Tratamiento from './tratamiento';
 import Mascota from './mascota';
-import HistoriaClinica from './HistoriaClinica';
+import { HistoriaClinica } from '.';
 
-import {enfermedades} from '../seeders/enfermedad'
-import {historiaClinicas} from '../seeders/historiaClinica'
-import {mascotas} from '../seeders/mascota'
-import {personas} from '../seeders/persona'
-import {tratamientos} from '../seeders/tratamiento'
-import {usuarios} from '../seeders/usuario'
+
+import {enfermedades,
+    historiaClinicas,
+    mascotas,
+    personas,
+    tratamientos,
+    usuarios} from '../seeders/index'
+
 
 class Server {
     private app:Application;
@@ -44,12 +46,12 @@ class Server {
     async dbconnection(){
         try { 
             await db.authenticate();
-
+            
         } catch (error:any ) {
             throw new Error(error);
         }
+        
     }
-
      entites(){
      Persona.sync();
      Usuario.sync();

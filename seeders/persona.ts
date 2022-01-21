@@ -1,4 +1,4 @@
-export  const personas=[
+ const personas=[
     {
         id:1,
         nombre:'admin',
@@ -12,3 +12,4 @@ export  const personas=[
         estado:0
     },
 ]
+export default personas;
