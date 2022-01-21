@@ -22,4 +22,4 @@ HistoriaClinica.belongsTo(mascota_1.default, { foreignKey: 'id_mascota', targetK
 HistoriaClinica.belongsTo(tratamiento_1.default, { foreignKey: 'id_tratamiento', targetKey: 'id' });
 HistoriaClinica.belongsTo(enfermedad_1.default, { foreignKey: 'id_enfermedad', targetKey: 'id' });
 exports.default = HistoriaClinica;
-//# sourceMappingURL=HistoriaClinica.js.map
+//# sourceMappingURL=historiaClinica.js.map

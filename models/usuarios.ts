@@ -17,9 +17,8 @@ const Usuario  =db.define('Usuario',{
     },
     estado:{
         type:DataTypes.BOOLEAN
-    }
-
-
+    },
+   
 })
 // Cual es la diferencia entre  estos tres?
 Usuario.belongsTo(Persona,{foreignKey:'id',as:'id_persona'})

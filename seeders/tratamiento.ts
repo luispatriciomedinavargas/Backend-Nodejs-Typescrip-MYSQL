@@ -1,4 +1,4 @@
-export const tratamientos=[
+ const tratamientos=[
     {
         id:1,
         descripcion:'tratamiento anti garrapatas',
@@ -12,3 +12,4 @@ export const tratamientos=[
 
 ]
 
+export default tratamientos;

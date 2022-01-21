@@ -19,7 +19,7 @@ const generar_jwt_1 = __importDefault(require("../helper/generar-jwt"));
 const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { password, email } = req.body;
     let id;
-    const usuario = yield usuarios_1.default.findAll({
+    const usuario = yield usuarios_1.default.findOne({
         where: {
             password: password,
             email: email,
@@ -33,9 +33,7 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     if (!usuario) {
         return res.json({ msg: 'la contraseña o el usuario no es valido' });
     }
-    usuario.map((user) => {
-        id = user.dataValues.id;
-    });
+    id = Object(usuario)["id"];
     const token = yield (0, generar_jwt_1.default)(id);
     res.json({
         usuario,

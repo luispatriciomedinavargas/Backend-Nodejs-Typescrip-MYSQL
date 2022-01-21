@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.tratamientos = void 0;
-exports.tratamientos = [
+const tratamientos = [
     {
         id: 1,
         descripcion: 'tratamiento anti garrapatas',
@@ -13,4 +12,5 @@ exports.tratamientos = [
         estado: 1,
     },
 ];
+exports.default = tratamientos;
 //# sourceMappingURL=tratamiento.js.map

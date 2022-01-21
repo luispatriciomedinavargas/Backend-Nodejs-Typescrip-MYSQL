@@ -1,4 +1,4 @@
-export  const historiaClinicas=[
+const historiaClinicas=[
     {
         id:1,
     comentario:'Se le inyecto un anti garrapatas',
@@ -14,3 +14,4 @@ export  const historiaClinicas=[
     id_enfermedad:2
     }
 ]
+export default historiaClinicas

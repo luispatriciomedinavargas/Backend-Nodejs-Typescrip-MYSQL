@@ -12,88 +12,61 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUsuario = exports.putUsuario = exports.postUsuario = exports.getUsuario = exports.getUsuarios = void 0;
+exports.deleteUsuario = exports.putUsuario = exports.postUsuario = exports.getUsuarioById = exports.getUsuarios = void 0;
+const models_1 = require("../models");
 const usuarios_1 = __importDefault(require("../models/usuarios"));
 const getUsuarios = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let idPersona = [];
     const getAll = yield usuarios_1.default.findAll({
-        where: {
-            estado: 1
-        }
+        include: [{
+                model: models_1.Persona,
+                as: 'id_persona'
+            }]
     });
-    getAll.map((user) => {
-        idPersona[user.dataValues.id_persona] = user.dataValues.id_persona;
-    });
-    idPersona.splice(0, 1);
-    const usuarios = yield usuarios_1.default.findAll({});
     res.json({
         getAll
     });
 });
 exports.getUsuarios = getUsuarios;
-const getUsuario = (req, res) => {
+const getUsuarioById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    res.json({
-        msg: 'get usuario - usuario controller',
-        id
+    const findByID = yield usuarios_1.default.findByPk(id, {
+        include: [{
+                model: models_1.Persona,
+                as: 'id_persona'
+            }]
     });
-};
-exports.getUsuario = getUsuario;
+    res.json({
+        findByID
+    });
+});
+exports.getUsuarioById = getUsuarioById;
 const postUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { body } = req;
-    try {
-        const existeEmail = yield usuarios_1.default.findOne({
-            where: {
-                email: body.email
-            }
-        });
-        if (existeEmail) {
-            return res.status(400).json({
-                msg: 'ya existe un usuario con esas caracteristicas'
-            });
-        }
-        const usuario = yield usuarios_1.default.create(body);
-        res.status(200).json({
-            usuario
-        });
-    }
-    catch (error) {
-        console.log(error);
-        res.status(500).json({
-            msg: 'Hable con el administrador'
-        });
-    }
+    const { password, email } = req.body;
+    const usuario = yield usuarios_1.default.create(password, email);
+    res.status(200).json({
+        usuario
+    });
 });
 exports.postUsuario = postUsuario;
 const putUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
-    const { body } = req;
-    try {
-        const usuario = yield usuarios_1.default.findByPk(id);
-        if (!usuario) {
-            return res.status(404).json({
-                msg: 'No se existe un usuario con el id' + id
-            });
-        }
-        yield usuario.update(body);
-        res.json({
-            usuario
-        });
-    }
-    catch (error) {
-        console.log(error);
-        res.status(500).json({
-            msg: 'Hable con el administrador'
-        });
-    }
+    const { password, estado, email } = req.body;
+    const data = { email, password };
+    const usuario = yield usuarios_1.default.findByPk(id);
+    yield usuario.update(data);
+    usuario.save();
+    res.json({
+        usuario
+    });
 });
 exports.putUsuario = putUsuario;
-const deleteUsuario = (req, res) => {
+const deleteUsuario = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
+    const usuario = yield usuarios_1.default.findByPk(id);
+    yield (usuario === null || usuario === void 0 ? void 0 : usuario.update({ estado: false }));
     res.json({
-        msg: 'delete usuario - usuario controller',
-        id
+        msg: 'el usuario fue borrado correctamente'
     });
-};
+});
 exports.deleteUsuario = deleteUsuario;
 //# sourceMappingURL=usuario.js.map

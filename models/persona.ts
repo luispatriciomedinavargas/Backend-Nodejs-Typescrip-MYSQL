@@ -18,6 +18,4 @@ const Persona=db.define('Persona',{
         defaultValue:1
     },
 })
-
-
 export default Persona;

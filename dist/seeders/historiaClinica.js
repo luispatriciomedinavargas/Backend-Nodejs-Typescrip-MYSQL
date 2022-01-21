@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.historiaClinicas = void 0;
-exports.historiaClinicas = [
+const historiaClinicas = [
     {
         id: 1,
         comentario: 'Se le inyecto un anti garrapatas',
@@ -17,4 +16,5 @@ exports.historiaClinicas = [
         id_enfermedad: 2
     }
 ];
+exports.default = historiaClinicas;
 //# sourceMappingURL=historiaClinica.js.map

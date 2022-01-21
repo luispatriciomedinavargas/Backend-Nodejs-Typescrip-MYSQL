@@ -1,102 +1,68 @@
 import { Request, Response } from "express";
+import { Persona } from "../models";
 import Usuario from "../models/usuarios";
 
 export const getUsuarios=async(req:Request , res:Response)=>{
-
-
-let idPersona:number[]=[];
-
 const getAll = await Usuario.findAll( 
-    {
-        where:{
-            estado:1
-        }
+    { 
+        include:[{
+         model:Persona,
+        as:'id_persona'
+        }]
     }
-);
-
-getAll.map((user:any)=>{
-idPersona[user.dataValues.id_persona]=user.dataValues.id_persona;
-})
-idPersona.splice(0,1);
-
-const usuarios= await Usuario.findAll({
-
-})
-    
+);  
     res.json({
         getAll
     })    
 
 }
 
-export const getUsuario=(req:Request , res:Response)=>{
-
+export const getUsuarioById=async(req:Request , res:Response)=>{
     const {id}=req.params;
-
+    const findByID = await Usuario.findByPk(
+        id,
+        { 
+            include:[{
+             model:Persona,
+            as:'id_persona'
+            }]
+        }
+    ); 
     res.json({
-        msg:'get usuario - usuario controller',
-        id
+        findByID
         })    
  }
-    
  export const postUsuario=async(req:Request , res:Response)=>{
-
-   const {body}=req; 
-  
-    try {
-        const existeEmail=await Usuario.findOne({
-            where:{
-                email:body.email
-            }
-        })
-        if(existeEmail){
-            return res.status(400).json({
-                msg:'ya existe un usuario con esas caracteristicas'
-            })
-        }
-    const usuario=await Usuario.create(body);
+   const {password,email}=req.body; 
+    const usuario=await Usuario.create(password,email);
         res.status(200).json({
             usuario
-        })
-    } catch (error) {
-        console.log(error);
-            res.status(500).json({
-                msg:'Hable con el administrador'
-            })
-    }
-  
+        }) 
  }
     
  export const putUsuario=async(req:Request , res:Response)=>{
 
     const {id}=req.params;
-    const {body}=req;
-        try {
+    const {password,estado,email}=req.body;
+        const data={email,password}
+      
             const usuario= await Usuario.findByPk(id);
-            if(!usuario){
-                return res.status(404).json({
-                    msg:'No se existe un usuario con el id' + id
-                })
-            }
-            await usuario.update(body);
 
+            await usuario!.update(data);
+                 usuario!.save();
             res.json({
                 usuario
-            })
-
-        } catch (error) {
-            console.log(error);
-                res.status(500).json({
-                    msg:'Hable con el administrador'
-                })
-        }   
+            }) 
   }
 
-  export const deleteUsuario=(req:Request , res:Response)=>{
+  export const deleteUsuario=async(req:Request , res:Response)=>{
 
     const {id}=req.params;
-     res.json({
-         msg:'delete usuario - usuario controller',
-         id
-         })    
+const usuario = await Usuario.findByPk(id);
+ 
+
+    await usuario?.update({estado:false});
+    res.json({
+     msg:'el usuario fue borrado correctamente'
+         })   
   }

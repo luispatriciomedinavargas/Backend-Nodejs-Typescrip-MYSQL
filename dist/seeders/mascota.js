@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.mascotas = void 0;
-exports.mascotas = [
+const mascotas = [
     {
         id: 1,
         nombre: 'firulais',
@@ -19,4 +18,5 @@ exports.mascotas = [
         id_persona: 2,
     },
 ];
+exports.default = mascotas;
 //# sourceMappingURL=mascota.js.map
