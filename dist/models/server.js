@@ -14,13 +14,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const usuario_1 = __importDefault(require("../routes/usuario"));
 const auth_1 = __importDefault(require("../routes/auth"));
+const usuario_1 = __importDefault(require("../routes/usuario"));
+const enfermedad_1 = __importDefault(require("../routes/enfermedad"));
 const tratamiento_1 = __importDefault(require("../routes/tratamiento"));
 const connection_1 = __importDefault(require("../db/connection"));
 const persona_1 = __importDefault(require("./persona"));
 const usuarios_1 = __importDefault(require("./usuarios"));
-const enfermedad_1 = __importDefault(require("./enfermedad"));
+const enfermedad_2 = __importDefault(require("./enfermedad"));
 const tratamiento_2 = __importDefault(require("./tratamiento"));
 const mascota_1 = __importDefault(require("./mascota"));
 const _1 = require(".");
@@ -30,7 +31,8 @@ class Server {
         this.apiPaths = {
             usuarios: '/api/usuarios',
             auth: '/api/auth',
-            tratamiento: '/api/tratamiento'
+            tratamiento: '/api/tratamiento',
+            enfermedad: '/api/enfermedad',
         };
         this.app = (0, express_1.default)();
         this.port = process.env.PORT || '8080';
@@ -55,7 +57,7 @@ class Server {
         persona_1.default.sync();
         usuarios_1.default.sync();
         mascota_1.default.sync();
-        enfermedad_1.default.sync();
+        enfermedad_2.default.sync();
         tratamiento_2.default.sync();
         _1.HistoriaClinica.sync();
     }
@@ -72,6 +74,7 @@ class Server {
         this.app.use(this.apiPaths.auth, auth_1.default);
         this.app.use(this.apiPaths.usuarios, usuario_1.default);
         this.app.use(this.apiPaths.tratamiento, tratamiento_1.default);
+        this.app.use(this.apiPaths.enfermedad, enfermedad_1.default);
     }
     listen() {
         this.app.listen(this.port, () => {
@@ -81,9 +84,9 @@ class Server {
     seeds() {
         return __awaiter(this, void 0, void 0, function* () {
             for (const enfermedad of index_1.enfermedades) {
-                const id = yield enfermedad_1.default.findByPk(enfermedad.id);
+                const id = yield enfermedad_2.default.findByPk(enfermedad.id);
                 if (!id) {
-                    enfermedad_1.default.create(enfermedad);
+                    enfermedad_2.default.create(enfermedad);
                 }
             }
             for (const tratamiento of index_1.tratamientos) {
